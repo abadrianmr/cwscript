@@ -34,7 +34,7 @@ async def foray_handler(event: NewMessage.Event):
     delay = randint(30, 60)  
     await client.send_message(cws_id, f"Sending in: {delay} seconds.") 
     await asyncio.sleep(delay)    
-    event.message.click(0)
+    await event.message.click(0)
 
 @client.on(events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
 async def trader_handler(event: NewMessage.Event): 
