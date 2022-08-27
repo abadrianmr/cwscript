@@ -18,7 +18,8 @@ with open('messages.json') as f:
 api_id = 1594535
 api_hash = '720d893966b2d956fc855b99696dee38'
 cws_id = -727169472
-client = TelegramClient('anon', api_id, api_hash).start()
+session = api_id = os.environ.get('SESSION')
+client = TelegramClient(session, api_id, api_hash).start()
 print("Hello")
 sys.stdout.flush()
 client.send_message(cws_id, "Running...") 

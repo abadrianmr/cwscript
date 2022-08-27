@@ -6,6 +6,7 @@ import os
 from random import randint
 from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
+from telethon.sessions import StringSession
 import  asyncio
 
 with open('messages.json') as f:
@@ -14,7 +15,8 @@ with open('messages.json') as f:
 api_id = 1594535
 api_hash = '720d893966b2d956fc855b99696dee38'
 cws_id = -727169472
-client = TelegramClient('anon', api_id, api_hash).start()
+with TelegramClient(StringSession(), api_id, api_hash) as client:
+    print(client.session.save())
 client.send_message(cws_id, "Running...") 
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
