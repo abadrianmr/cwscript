@@ -17,11 +17,11 @@ client = TelegramClient('anon', api_id, api_hash).start()
 client.send_message(cws_id, "Running...") 
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
-async def msg_handler(event: NewMessage.Event):        
+async def cw_msg_handler(event: NewMessage.Event):        
     await client.forward_messages(cws_id, event.message)  
 
 @client.on(events.NewMessage(from_users='me', chats=cws_id))
-async def msg_handler(event: NewMessage.Event):        
+async def cws_msg_handler(event: NewMessage.Event):        
     await client.forward_messages(cws_id, event.message) 
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
