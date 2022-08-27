@@ -4,6 +4,7 @@ import json
 import re
 import os
 from random import randint
+import sys
 from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 import  asyncio
@@ -16,6 +17,7 @@ api_hash = '720d893966b2d956fc855b99696dee38'
 cws_id = -727169472
 client = TelegramClient('anon', api_id, api_hash).start()
 print("Hello")
+sys.stdout.flush()
 client.send_message(cws_id, "Running...") 
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
