@@ -16,9 +16,9 @@ sys.stdout.flush()
 with open('messages.json') as f:
     regex_msg = json.load(f)
 
-api_id = 1594535
-api_hash = '720d893966b2d956fc855b99696dee38'
-cws_id = -727169472
+api_id = os.environ.get('API_ID')
+api_hash = os.environ.get('API_HASH')
+cws_id = os.environ.get('CONF_CHAT_ID')
 session = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session), api_id, api_hash).start()
 print("Hello")
