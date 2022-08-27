@@ -9,6 +9,9 @@ from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 import  asyncio
 
+print("Hello")
+sys.stdout.flush()
+
 with open('messages.json') as f:
     regex_msg = json.load(f)
 
