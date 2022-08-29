@@ -10,7 +10,7 @@ from telethon.events.newmessage import NewMessage
 from telethon.sessions import StringSession
 import  asyncio
 
-print("Hello")
+print("Starting running...")
 sys.stdout.flush()
 
 with open('messages.json') as f:
@@ -21,7 +21,10 @@ api_hash = os.environ.get('API_HASH')
 cws_id = int(os.environ.get('CONF_CHAT_ID'))
 session = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session), api_id, api_hash).start()
-print("Hello")
+
+
+
+print("Running...")
 sys.stdout.flush()
 client.send_message(cws_id, "Running...") 
 
@@ -42,6 +45,6 @@ async def trader_handler(event: NewMessage.Event):
     await client.send_message(cws_id, f"Sending in: {delay} seconds.") 
     await asyncio.sleep(delay)    
     ammount = re.findall(r'\b\d+\b', event.raw_text)
-    await client.send_message(cws_id, f"/sc 41 {ammount[1]}") 
+    await client.send_message('chtwrsbot', f"/sc 41 {ammount[1]}", ) 
 
 client.run_until_disconnected()
