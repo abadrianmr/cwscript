@@ -1,4 +1,6 @@
 {
     "foray": "^(You were strolling around on your horse when you noticed).*(trying to pillage a local village.)",
-    "trader": "^(You defended villagers well. In exchange for your help, local trader offered you a deal you can't refuse. He is going to buy some of your resources for whole) .*(per item. However, he is leaving to distant lands and his caravan can only carry) .*(. \n\nTo accept his offer, use \/sc {code} {quantity}. And try not to turtle. He can only wait so much.)"
+    "trader": "^(You defended villagers well. In exchange for your help, local trader offered you a deal you can't refuse. He is going to buy some of your resources for whole) .*(per item. However, he is leaving to distant lands and his caravan can only carry) .*(. \n\nTo accept his offer, use \/sc {code} {quantity}. And try not to turtle. He can only wait so much.)",
+    "order1": "^(Buzzing Tailor just set the orders. Check \/order to get your order.)",
+    "order2": "^(For security reasons you are asked to run this additional command: /order)"
 }
