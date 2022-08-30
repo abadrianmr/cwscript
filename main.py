@@ -1,5 +1,3 @@
-
-from asyncio.windows_events import NULL
 from cgitb import text
 import json
 import re
@@ -13,7 +11,7 @@ import  asyncio
 
 class TClient:
     client: TelegramClient
-    regex_msg: NULL
+    regex_msg: None
 
     async def main(self):
         """Start the bot."""
