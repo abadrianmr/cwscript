@@ -38,7 +38,7 @@ async def orders_msg_handler(event: NewMessage.Event):
         await client.send_message(cws_id, "/order")
     elif pattern2.match(event.raw_text):
         index = event.raw_text.find('/')
-        await client.send_message(cws_id, event.raw_text[index:])
+        await client.send_message('botniatobot', event.raw_text[index:])
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
 async def foray_handler(event: NewMessage.Event): 
