@@ -22,14 +22,16 @@ cws_id = int(os.environ.get('CONF_CHAT_ID'))
 session = os.environ.get('SESSION')
 client = TelegramClient(StringSession(session), api_id, api_hash).start()
 
-
-
 print("Running...")
 sys.stdout.flush()
 client.send_message(cws_id, "Running...") 
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
 async def cw_msg_handler(event: NewMessage.Event):        
+    await client.forward_messages(cws_id, event.message)  
+
+@client.on(events.NewMessage(incoming=True, from_users='botniatobot'))
+async def orders_msg_handler(event: NewMessage.Event):        
     await client.forward_messages(cws_id, event.message)  
 
 @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
@@ -45,6 +47,6 @@ async def trader_handler(event: NewMessage.Event):
     await client.send_message(cws_id, f"Sending in: {delay} seconds.") 
     await asyncio.sleep(delay)    
     ammount = re.findall(r'\b\d+\b', event.raw_text)
-    await client.send_message('chtwrsbot', f"/sc 41 {ammount[1]}", ) 
+    await client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", ) 
 
 client.run_until_disconnected()
