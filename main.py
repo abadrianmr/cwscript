@@ -1,4 +1,5 @@
 
+from asyncio.windows_events import NULL
 from cgitb import text
 import json
 import re
@@ -12,36 +13,7 @@ import  asyncio
 
 class TClient:
     client: TelegramClient
-    regex_msg = None
-
-    @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
-    async def cw_msg_handler(self, event: NewMessage.Event):        
-        await self.client.forward_messages(self.cws_id, event.message)  
-
-    @client.on(events.NewMessage(incoming=True, from_users='botniatobot'))
-    async def orders_msg_handler(self, event: NewMessage.Event):  
-        pattern1 = re.compile(self.regex_msg["order1"])
-        pattern2 = re.compile(self.regex_msg["order2"])
-        if(pattern1.match(event.raw_text)):     
-            await self.client.send_message('botniatobot', "/order")
-        elif pattern2.match(event.raw_text):
-            index = event.raw_text.find('/')
-            await self.client.send_message('botniatobot', event.raw_text[index:])
-
-    @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
-    async def foray_handler(self, event: NewMessage.Event): 
-        delay = randint(30, 60)  
-        await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
-        await asyncio.sleep(delay)    
-        await event.message.click(0)
-
-    @client.on(events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
-    async def trader_handler(self, event: NewMessage.Event): 
-        delay = randint(10,20)  
-        await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
-        await asyncio.sleep(delay)    
-        ammount = re.findall(r'\b\d+\b', event.raw_text)
-        await self.client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", ) 
+    regex_msg: NULL
 
     async def main(self):
         """Start the bot."""
@@ -59,13 +31,40 @@ class TClient:
         session = os.environ.get('SESSION')
         self.cws_id = int(os.environ.get('CONF_CHAT_ID'))
 
-        self.client: TelegramClient = TelegramClient(StringSession(session), api_id, api_hash).start()        
-
+        self.client: TelegramClient = await TelegramClient(StringSession(session), api_id, api_hash).start()       
+        self.client.add_event_handler(self.cw_msg_handler, events.NewMessage(incoming=True, from_users='chtwrsbot'))
+        self.client.add_event_handler(self.orders_msg_handler, events.NewMessage(incoming=True, from_users='botniatobot'))
+        self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=self.regex_msg["foray"]))
+        self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=self.regex_msg["trader"]))
         print("Running...")
         sys.stdout.flush()
-        self.client.send_message(self.cws_id, "Running...") 
-        self.client.run_until_disconnected()
+        await self.client.send_message(self.cws_id, "Running...") 
+        await self.client.run_until_disconnected()
+    
+    async def cw_msg_handler(self, event: NewMessage.Event):        
+        await self.client.forward_messages(self.cws_id, event.message)  
+        
+    async def orders_msg_handler(self, event: NewMessage.Event):  
+        pattern1 = re.compile(self.regex_msg["order1"])
+        pattern2 = re.compile(self.regex_msg["order2"])
+        if(pattern1.match(event.raw_text)):     
+            await self.client.send_message('botniatobot', "/order")
+        elif pattern2.match(event.raw_text):
+            index = event.raw_text.find('/')
+            await self.client.send_message('botniatobot', event.raw_text[index:])
+
+    async def foray_handler(self, event: NewMessage.Event): 
+        delay = randint(30, 60)  
+        await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
+        await asyncio.sleep(delay)    
+        await event.message.click(0)
+    
+    async def trader_handler(self, event: NewMessage.Event): 
+        delay = randint(10,20)  
+        await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
+        await asyncio.sleep(delay)    
+        ammount = re.findall(r'\b\d+\b', event.raw_text)
+        await self.client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", )     
 
 if __name__ == '__main__':
     asyncio.run(TClient().main())
-
