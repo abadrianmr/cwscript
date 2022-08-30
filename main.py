@@ -1,5 +1,4 @@
 
-from asyncio.windows_events import NULL
 from cgitb import text
 import json
 import re
@@ -13,7 +12,7 @@ import  asyncio
 
 class TClient:
     client: TelegramClient
-    regex_msg: NULL
+    regex_msg = None
 
     @client.on(events.NewMessage(incoming=True, from_users='chtwrsbot'))
     async def cw_msg_handler(self, event: NewMessage.Event):        
