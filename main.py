@@ -33,9 +33,11 @@ async def cw_msg_handler(event: NewMessage.Event):
 @client.on(events.NewMessage(incoming=True, from_users='botniatobot'))
 async def orders_msg_handler(event: NewMessage.Event):  
     string: text = event.raw_text 
-    if(re.match(regex_msg["order1"], text)):     
+    pattern1 = re.compile(regex_msg["order1"])
+    pattern2 = re.compile(regex_msg["order2"])
+    if(pattern1.match(text)):     
         await client.send_message(cws_id, "/order")
-    if(re.match(regex_msg["order2"]), text):
+    elif pattern2.match(text):
         string: text = event.raw_text
         index = text.find('/')
         await client.send_message(cws_id, text[index:])
