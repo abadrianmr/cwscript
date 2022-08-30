@@ -35,7 +35,7 @@ async def orders_msg_handler(event: NewMessage.Event):
     string: text = str(event.raw_text)
     pattern1 = re.compile(regex_msg["order1"])
     pattern2 = re.compile(regex_msg["order2"])
-    if(pattern1.match(text)):     
+    if(pattern1.match(event.raw_text)):     
         await client.send_message(cws_id, "/order")
     elif pattern2.match(text):
         index = text.find('/')
