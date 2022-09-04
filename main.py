@@ -8,7 +8,6 @@ from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 from telethon.sessions import StringSession
 import asyncio
-from repository import repository, User
 
 class TClient:
     client: TelegramClient
@@ -69,7 +68,6 @@ class TClient:
 
     async def config_trader_handler(self, event: NewMessage.Event):
         sender = await event.get_sender()
-        repository.UpdateUser()
 
 if __name__ == '__main__':
     asyncio.run(TClient().main())
