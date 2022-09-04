@@ -7,11 +7,13 @@ import sys
 from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 from telethon.sessions import StringSession
-import  asyncio
+import asyncio
+from repository import repository, User
 
 class TClient:
     client: TelegramClient
     regex_msg: None
+    repository: None
 
     async def main(self):
         """Start the bot."""
@@ -34,6 +36,7 @@ class TClient:
         self.client.add_event_handler(self.orders_msg_handler, events.NewMessage(incoming=True, from_users='botniatobot'))
         self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=self.regex_msg["foray"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=self.regex_msg["trader"]))
+        self.client.add_event_handler(self.config_trader_handler, events.NewMessage(from_users='me', chats=self.cws_id,pattern=self.regex_msg["traderConfig"]))
         print("Running...")
         sys.stdout.flush()
         await self.client.send_message(self.cws_id, "Running...") 
@@ -62,7 +65,11 @@ class TClient:
         await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
         await asyncio.sleep(delay)    
         ammount = re.findall(r'\b\d+\b', event.raw_text)
-        await self.client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", )     
+        await self.client.send_message('chtwrsbot', f"/sc 01 {ammount[1]}", )     
+
+    async def config_trader_handler(self, event: NewMessage.Event):
+        sender = await event.get_sender()
+        repository.UpdateUser()
 
 if __name__ == '__main__':
     asyncio.run(TClient().main())
