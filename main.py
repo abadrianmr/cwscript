@@ -29,6 +29,7 @@ class TClient:
         api_hash = os.environ.get('API_HASH')        
         session = os.environ.get('SESSION')
         self.cws_id = int(os.environ.get('CONF_CHAT_ID'))
+        self.mobs_id = -1546301345
 
         self.client: TelegramClient = await TelegramClient(StringSession(session), api_id, api_hash).start()       
         self.client.add_event_handler(self.cw_msg_handler, events.NewMessage(incoming=True, from_users='chtwrsbot'))
@@ -36,6 +37,7 @@ class TClient:
         self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=self.regex_msg["foray"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=self.regex_msg["trader"]))
         self.client.add_event_handler(self.config_trader_handler, events.NewMessage(from_users='me', chats=self.cws_id,pattern=self.regex_msg["traderConfig"]))
+        self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='chtwrsbot', chats=self.cws_id,pattern=self.regex_msg["mobs"]))
         print("Running...")
         sys.stdout.flush()
         await self.client.send_message(self.cws_id, "Running...") 
@@ -65,6 +67,11 @@ class TClient:
         await asyncio.sleep(delay)    
         ammount = re.findall(r'\b\d+\b', event.raw_text)
         await self.client.send_message('chtwrsbot', f"/sc 01 {ammount[1]}", )     
+
+    async def mobs_handler(self, event: NewMessage.Event):
+        delay = randint(30, 60)  
+        await self.client.send_message(self.cws_id, f"Sending mob to group: {delay} seconds.") 
+        await self.client.forward_messages(self.mobs_id, event.message)
 
     async def config_trader_handler(self, event: NewMessage.Event):
         sender = await event.get_sender()
