@@ -37,7 +37,7 @@ class TClient:
         self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=self.regex_msg["foray"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=self.regex_msg["trader"]))
         self.client.add_event_handler(self.config_trader_handler, events.NewMessage(from_users='me', chats=self.cws_id,pattern=self.regex_msg["traderConfig"]))
-        self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='me', chats=self.cws_id,pattern=self.regex_msg["mobs"]))
+        self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='chtwrsbot', chats=self.cws_id,pattern=self.regex_msg["mobs"]))
         print("Running...")
         sys.stdout.flush()
         await self.client.send_message(self.cws_id, "Running...") 
