@@ -69,8 +69,9 @@ class TClient:
         await self.client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", )     
 
     async def mobs_handler(self, event: NewMessage.Event):
-        delay = 0 #randint(30, 60)  
+        delay = randint(5, 20)  
         await self.client.send_message(self.cws_id, f"Sending mob to group: {delay} seconds.") 
+        await asyncio.sleep(delay)
         await self.client.forward_messages(-1001546301345, event.message)
 
     async def config_trader_handler(self, event: NewMessage.Event):
