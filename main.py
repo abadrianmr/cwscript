@@ -71,7 +71,7 @@ class TClient:
     async def mobs_handler(self, event: NewMessage.Event):
         delay = 0 #randint(30, 60)  
         await self.client.send_message(self.cws_id, f"Sending mob to group: {delay} seconds.") 
-        await self.client.forward_messages(1671772222, event.message)
+        await self.client.forward_messages(-1001546301345, event.message)
 
     async def config_trader_handler(self, event: NewMessage.Event):
         sender = await event.get_sender()
