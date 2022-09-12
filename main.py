@@ -66,7 +66,7 @@ class TClient:
         await self.client.send_message(self.cws_id, f"Sending in: {delay} seconds.") 
         await asyncio.sleep(delay)    
         ammount = re.findall(r'\b\d+\b', event.raw_text)
-        await self.client.send_message('chtwrsbot', f"/sc 11 {ammount[1]}", )     
+        await self.client.send_message('chtwrsbot', f"/sc 07 {ammount[1]}", )     
 
     async def mobs_handler(self, event: NewMessage.Event):
         delay = randint(5, 20)  
