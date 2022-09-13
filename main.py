@@ -29,7 +29,7 @@ class TClient:
         api_hash = os.environ.get('API_HASH')        
         session = os.environ.get('SESSION')
         self.cws_id = int(os.environ.get('CONF_CHAT_ID'))
-        self.mobs_id = -1546301345
+        self.mobs_id = -1001408823679
 
         self.client: TelegramClient = await TelegramClient(StringSession(session), api_id, api_hash).start()       
         self.client.add_event_handler(self.cw_msg_handler, events.NewMessage(incoming=True, from_users='chtwrsbot'))
@@ -72,7 +72,7 @@ class TClient:
         delay = randint(5, 20)  
         await self.client.send_message(self.cws_id, f"Sending mob to group: {delay} seconds.") 
         await asyncio.sleep(delay)
-        await self.client.forward_messages(-1001546301345, event.message)
+        await self.client.forward_messages(self.mobs_id, event.message)
 
     async def config_trader_handler(self, event: NewMessage.Event):
         sender = await event.get_sender()
