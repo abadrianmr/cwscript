@@ -53,6 +53,8 @@ class TClient:
             await self.client.send_message('botniatobot', "/order")
         elif pattern2.match(event.raw_text):
             index = event.raw_text.find('/')
+            delay = randint(2,5)  
+            await asyncio.sleep(delay) 
             await self.client.send_message('botniatobot', event.raw_text[index:])
 
     async def foray_handler(self, event: NewMessage.Event): 
