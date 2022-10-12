@@ -49,6 +49,7 @@ class TClient:
     async def orders_msg_handler(self, event: NewMessage.Event):  
         pattern1 = re.compile(self.regex_msg["order1"])
         pattern2 = re.compile(self.regex_msg["order2"])
+        pattern3 = re.compile(self.regex_msg["order3"])
         if(pattern1.match(event.raw_text)):     
             await self.client.send_message('botniatobot', "/order")
         elif pattern2.match(event.raw_text):
@@ -56,6 +57,9 @@ class TClient:
             delay = randint(2,5)  
             await asyncio.sleep(delay) 
             await self.client.send_message('botniatobot', event.raw_text[index:])
+        elif pattern3.match(event.raw_text):
+            order = re.search(r'.*(\(https:\/\/t.me\/share\/url\?url=(.*?)\))', event.raw_text).group(2)
+            await self.client.send_message(self.cws_id, order)
 
     async def foray_handler(self, event: NewMessage.Event): 
         delay = randint(30, 60)  
