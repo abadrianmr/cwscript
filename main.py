@@ -60,6 +60,7 @@ class TClient:
         elif pattern3.match(event.raw_text):
             order = re.search(r'.*(\(https:\/\/t.me\/share\/url\?url=(.*?)\))', event.raw_text).group(2)
             await self.client.send_message(self.cws_id, order)
+            #await self.client.send_message(self.cws_id, schedule=)
 
     async def foray_handler(self, event: NewMessage.Event): 
         delay = randint(30, 60)  

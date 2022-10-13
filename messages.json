@@ -4,6 +4,6 @@
     "traderConfig": "^(/trader)",
     "order1": "^(Buzzing Tailor just set the orders. Check \/order to get your order.)",
     "order2": "^(For security reasons you are asked to run this additional command: \/order)",
-    "order3": ".*(\\(https:\/\/t.me\/share\/url\\?url=\/ga_def_.*\\))",
+    "order3": ".*(\\(https:\\/\\/t.me\\/share\\/url\\?url=(.*?)\\))",
     "mobs": "^(You met some hostile creatures. Be careful:)"
 }
