@@ -48,7 +48,7 @@ class TClient:
         utc = dt.timezone(dt.timedelta(hours=0))
         schedule = Scheduler(tzinfo=dt.timezone.utc)
         schedule.daily([dt.time(hour=6, minute=18,tzinfo=utc), dt.time(hour=14, minute=18,tzinfo=utc), dt.time(hour=22, minute=18,tzinfo=utc)], handle=self.send_order)
-        schedule.minutely(handle=self.show_time)
+        schedule.minutely(dt.time(second=15), handle=self.show_time)
         
 
         await self.client.send_message(self.cws_id, "Running...") 
