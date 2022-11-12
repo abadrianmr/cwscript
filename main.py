@@ -49,7 +49,7 @@ class TClient:
         schedule = Scheduler(tzinfo=dt.timezone.utc)
         schedule.daily([dt.time(hour=6, minute=18,tzinfo=utc), dt.time(hour=14, minute=18,tzinfo=utc), dt.time(hour=22, minute=18,tzinfo=utc)], handle=self.send_order)
         schedule.minutely(dt.time(second=15, tzinfo=utc), handle=self.show_time)
-        
+        schedule.exec_jobs()
 
         await self.client.send_message(self.cws_id, "Running...") 
         await self.client.run_until_disconnected()
