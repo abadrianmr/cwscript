@@ -4,6 +4,10 @@ import re
 import os
 from random import randint
 import sys
+import datetime as dt
+from datetime import datetime
+from scheduler import Scheduler
+schedule = Scheduler(tzinfo=dt.timezone.utc)
 from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 from telethon.sessions import StringSession
@@ -40,8 +44,21 @@ class TClient:
         self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='chtwrsbot', pattern=self.regex_msg["mobs"]))
         print("Running...")
         sys.stdout.flush()
+
+        utc = dt.timezone(dt.timedelta(hours=0))
+        schedule = Scheduler(tzinfo=dt.timezone.utc)
+        schedule.daily([dt.time(hour=6, minute=18,tzinfo=utc), dt.time(hour=14, minute=18,tzinfo=utc), dt.time(hour=22, minute=18,tzinfo=utc)], handle=self.send_order)
+        schedule.minutely(handle=self.show_time)
+        
+
         await self.client.send_message(self.cws_id, "Running...") 
         await self.client.run_until_disconnected()
+
+    async def show_time(self):
+        await self.client.send_message(self.cws_id, datetime.now(tz=None))
+
+    async def send_order(self):
+        await self.client.send_message(self.cws_id, "🛡Defend")
     
     async def cw_msg_handler(self, event: NewMessage.Event):        
         await self.client.forward_messages(self.cws_id, event.message)  
