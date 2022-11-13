@@ -49,7 +49,7 @@ class TClient:
 
     @aiocron.crontab('3 * * * *')
     async def show_time(self):
-        await self.client.send_message(self.cws_id, datetime.now(tz=None))
+        await self.client.send_message(self.cws_id, "Hello")
 
     async def send_order(self):
         await self.client.send_message(self.cws_id, "🛡Defend")
