@@ -47,7 +47,7 @@ class TClient:
         await self.client.send_message(self.cws_id, "Running...")        
         await self.client.run_until_disconnected()        
 
-    @aiocron.crontab('3 * * * *')
+    @aiocron.crontab('*/1 * * * *')
     async def show_time(self):
         await self.client.send_message(self.cws_id, "Hello")
 
