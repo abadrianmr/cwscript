@@ -44,8 +44,7 @@ class TClient:
         print("Running...")
         sys.stdout.flush()        
 
-        await self.client.send_message(self.cws_id, "Running...")
-        await self.client.loop.run_forever() 
+        await self.client.send_message(self.cws_id, "Running...")        
         await self.client.run_until_disconnected()        
 
     @aiocron.crontab('3 * * * *')
