@@ -6,8 +6,7 @@ from random import randint
 import sys
 import datetime as dt
 from datetime import datetime
-from scheduler import Scheduler
-schedule = Scheduler(tzinfo=dt.timezone.utc)
+import aioschedule as schedule
 from telethon import TelegramClient, events, sync
 from telethon.events.newmessage import NewMessage
 from telethon.sessions import StringSession
@@ -45,14 +44,17 @@ class TClient:
         print("Running...")
         sys.stdout.flush()
 
-        utc = dt.timezone(dt.timedelta(hours=0))
-        schedule = Scheduler(tzinfo=dt.timezone.utc)
-        schedule.daily([dt.time(hour=6, minute=18,tzinfo=utc), dt.time(hour=14, minute=18,tzinfo=utc), dt.time(hour=22, minute=18,tzinfo=utc)], handle=self.send_order)
-        schedule.minutely(dt.time(second=15, tzinfo=utc), handle=self.show_time)
-        schedule.exec_jobs()
+        schedule.every(5).seconds.do(self.show_time)
+        # schedule.daily([dt.time(hour=6, minute=18,tzinfo=utc), dt.time(hour=14, minute=18,tzinfo=utc), dt.time(hour=22, minute=18,tzinfo=utc)], handle=self.send_order)
+        # schedule.minutely(dt.time(second=15, tzinfo=utc), handle=self.show_time)
+        
+        loop = asyncio.get_event_loop()
 
         await self.client.send_message(self.cws_id, "Running...") 
         await self.client.run_until_disconnected()
+
+        while True:
+            loop.run_until_complete(schedule.run_pending())
 
     async def show_time(self):
         await self.client.send_message(self.cws_id, datetime.now(tz=None))
