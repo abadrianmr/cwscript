@@ -17,19 +17,26 @@ class User(base):
     id = Column(String, primary_key=True, unique=True)
     name = Column(String)
     alias = Column(String)
-    traderItem = Column(Integer)    
+    traderItem = Column(String, default="02") 
+    session=Column(String)
+    api_id=Column(Integer)   
+    api_hash=Column(String)
+    cws_id=Column(Integer)
 
-    def __init__(self, id, name, alias):
+    def __init__(self, id, alias, session, api_id, api_hash, cws_id):
         self.id=id
-        self.name = name
         self.alias = alias
+        self.session = session
+        self.api_id = api_id
+        self.api_hash = api_hash
+        self.cws_id = cws_id
 
 class Repository:
     def CommitTransaction(self):
         self.session.commit() 
 
-    def AddUser(self, id, name, alias):
-        user = User(id, name, alias)
+    def AddUser(self, id, alias, session, api_id, api_hash, cws_id):
+        user = User(id, alias, session, api_id, api_hash, cws_id)
         self.session.add(user)
         try:
             self.session.commit() 

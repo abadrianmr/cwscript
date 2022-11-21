@@ -4,13 +4,11 @@ import re
 import os
 from pytz import utc
 from random import randint
-from telethon import TelegramClient, events, sync, functions, types
-from telethon.tl.functions.account import UpdateProfileRequest
+from telethon import TelegramClient, events
 from telethon.sessions import StringSession
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.combining import OrTrigger
-from apscheduler.triggers.cron import CronTrigger
 from telethon.events.newmessage import NewMessage
+from repository import repository, User
 
 api_id = os.environ.get('API_ID')
 api_hash = os.environ.get('API_HASH')        
@@ -77,9 +75,13 @@ async def setOrder():
         await t.sendOrder()                
 
 async def main():    
+    users: list[User] = repository.GetUsers()
     scheduler.add_job(setOrder, trigger="cron", hour='6,14,22', minute=18)
     scheduler.start()
-    clients.append(TClient(session, api_id, api_hash, cws_id))
+
+    u:User
+    for u in users:
+        clients.append(TClient(u.session, u.api_id, u.api_hash, u.cws_id))
     t: TClient
     for t in clients:
         await t.start()        
