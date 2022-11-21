@@ -30,7 +30,8 @@ class TClient:
         self.client.add_event_handler(self.cw_msg_handler, events.NewMessage(incoming=True, from_users='chtwrsbot'))
         self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
-        self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["mobs"]))
+        self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
+        self.client.add_event_handler(self.quest_handler, events.NewMessage(from_users='me', chats=cws_id, pattern=regex_msg["quest"]))
 
     async def start(self):
         await self.client.start()
@@ -60,6 +61,11 @@ class TClient:
         await asyncio.sleep(delay)    
         ammount = re.findall(r'\b\d+\b', event.raw_text)
         await self.client.send_message('chtwrsbot', f"/sc 02 {ammount[1]}", )
+
+    async def quest_handler(self, event: NewMessage.Event):         
+        place = event.raw_text[0]
+        amount = int(event.raw_text[1:])
+        await self.client.send_message(self.cws_id, f"Place: {place}\nAmount: {amount}", )
 
 async def setOrder():
     t: TClient
