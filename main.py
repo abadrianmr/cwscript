@@ -34,10 +34,7 @@ class TClient:
 
     async def start(self):
         await self.client.start()
-    
-    async def run(self):
-        await self.client.send_message(self.cws_id, "Running...")
-        await self.client.run_until_disconnected()
+        await self.client.send_message(self.cws_id, "Running...")        
 
     async def sendOrder(self):
         await self.client.send_message('chtwrsbot', "🛡Defend")
@@ -69,7 +66,7 @@ async def setOrder():
     for t in clients:
         await t.sendOrder()                
 
-async def main():    
+async def main():        
     users: list[User] = repository.GetUsers()
     scheduler.add_job(setOrder, trigger="cron", hour='6,14,22', minute=18)
     scheduler.start()
@@ -79,8 +76,10 @@ async def main():
         clients.append(TClient(u.session, u.api_id, u.api_hash, u.cws_id))
     t: TClient
     for t in clients:
-        await t.start()        
-        await t.run()
+        await t.start()   
+
+    await t.client.run_until_disconnected()
+
 
 if __name__ == '__main__':  
     asyncio.run(main())
