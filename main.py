@@ -10,11 +10,6 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from telethon.events.newmessage import NewMessage
 from repository import repository, User
 
-api_id = os.environ.get('API_ID')
-api_hash = os.environ.get('API_HASH')        
-session = os.environ.get('SESSION')
-cws_id = int(os.environ.get('CONF_CHAT_ID'))
-
 clients = []
 scheduler: AsyncIOScheduler = AsyncIOScheduler(timezone=utc)
 with open('messages.json') as f:
