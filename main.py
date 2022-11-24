@@ -31,7 +31,9 @@ class TClient:
         self.client.add_event_handler(self.foray_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["foray"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
         self.client.add_event_handler(self.trader_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["trader"]))
-        self.client.add_event_handler(self.quest_handler, events.NewMessage(from_users='me', chats=cws_id, pattern=regex_msg["quest"]))
+        self.client.add_event_handler(self.mobs_handler, events.NewMessage(from_users='chtwrsbot', pattern=regex_msg["mobs"]))
+        self.client.add_event_handler(self.quest_request_handler, events.NewMessage(from_users='me', chats=cws_id, pattern=regex_msg["questRequest"]))
+        self.client.add_event_handler(self.quest_message_handler, events.NewMessage(incoming=True, from_users='chtwrsbot', pattern=regex_msg["questMessage"]))
 
     async def start(self):
         await self.client.start()
@@ -62,10 +64,16 @@ class TClient:
         ammount = re.findall(r'\b\d+\b', event.raw_text)
         await self.client.send_message('chtwrsbot', f"/sc 02 {ammount[1]}", )
 
-    async def quest_handler(self, event: NewMessage.Event):         
+    async def quest_request_handler(self, event: NewMessage.Event):         
         place = event.raw_text[0]
         amount = int(event.raw_text[1:])
+        chat = self.client.get_entity("chtwrsbot")
+        
         await self.client.send_message(self.cws_id, f"Place: {place}\nAmount: {amount}", )
+
+    async def quest_message_handler(self, event: NewMessage.Event):
+        await self.client.send_message(self.cws_id, f"Voa questear", )
+
 
 async def setOrder():
     t: TClient

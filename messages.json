@@ -6,5 +6,6 @@
     "order2": "^(For security reasons you are asked to run this additional command: \/order)",
     "order3": ".*(\\(https:\\/\\/t.me\\/share\\/url\\?url=(.*?)\\))",
     "mobs": "^(You met some hostile creatures. Be careful:)",
-    "quest": "^(([\\\\s\\\\S\\\\f\\\\F\\\\v\\\\V])([1-9][0-9]?))$"
+    "questRequest": "^(([\\\\s\\\\S\\\\f\\\\F\\\\v\\\\V])([1-9][0-9]?))$",
+    "questMessage": "^(🌲Forest 3min\nMany things can happen in the forest.\n\n).*(Swamp 4min\nWho knows what is lurking in mud.\n\n).*(Mountain Valley 4min\nWatch out for landslides.\n\n).*(\n)(Foray is a dangerous activity. Someone can notice you and may beat you up. But if you go unnoticed, you will acquire a lot of loot.\n\n).*(\n)(Arena isn't a place for the weak. Here you fight against other players and if you stand victorious, you acquire precious experience.)"
 }
